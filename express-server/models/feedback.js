@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var schema = mongoose.Schema;
 
-const feedbackSchema = new mongoose.Schema({
+var feedbackSchema = new mongoose.Schema({
     firstname: {
         type: String,
         required: true

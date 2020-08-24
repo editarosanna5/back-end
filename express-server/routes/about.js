@@ -1,7 +1,7 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+var express = require('express');
+var bodyParser = require('body-parser');
 
-const about = express.Router();
+var about = express.Router();
 
 about.use(bodyParser.json());
 

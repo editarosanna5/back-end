@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var schema = mongoose.Schema;
 
-const commentSchema = new mongoose.Schema({
+var commentSchema = new mongoose.Schema({
     author: {
         type: String,
         required: true
@@ -20,7 +20,7 @@ const commentSchema = new mongoose.Schema({
     timestamps: true
 });
 
-const statSchema = new schema({
+var statSchema = new schema({
     date: {
         type: Date,
         required: true
@@ -31,7 +31,7 @@ const statSchema = new schema({
     }
 });
 
-const locSchema = new schema({
+var locSchema = new schema({
     name: {
         type: String,
         required: true
@@ -66,5 +66,5 @@ const locSchema = new schema({
     timestamps: true
 });
 
-const Locations = mongoose.model('Location', locSchema);
+var Locations = mongoose.model('Location', locSchema);
 module.exports = Locations;
