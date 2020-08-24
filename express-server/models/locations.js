@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 const commentSchema = new mongoose.Schema({
-    mallId: {
-
-    },
     author: {
         type: String,
         required: true
@@ -48,17 +45,18 @@ const locSchema = new schema({
         required: true
     },
     image: {
-
+        type: String,
+        default: ''
+    },
+    capacity: {
+        type: Number,
+        required: true
     },
     visitorIn: {
         type: Number,
         required: true
     },
     visitorOut: {
-        type: Number,
-        required: true
-    },
-    visitorNow: {
         type: Number,
         required: true
     },
