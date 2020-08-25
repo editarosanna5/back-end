@@ -19,7 +19,7 @@ var userSchema = new schema({
     }
 });
 
-user.plugin(passportLocalMongoose);
+userSchema.plugin(passportLocalMongoose);
 
 var Users = mongoose.model('User', userSchema);
 module.exports = Users;

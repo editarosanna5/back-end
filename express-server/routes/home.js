@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var authenticate = require('../authenticate');
 
 var Locations = require('../models/locations');
 
@@ -18,7 +19,7 @@ home.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser, (req, res, next) => {
     Locations.create(req.body)
     .then((location) => {
         console.log('"', location, '" registered!');
@@ -32,7 +33,7 @@ home.route('/')
     res.statusCode = 403;
     res.end('PUT not allowed on /home');
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Locations.remove({})
     .then((resp) => {
         res.statusCode = 200;
@@ -56,7 +57,7 @@ home.route('/:locationId')
     res.statusCode = 403;
     res.end('POST not allowed on /home/' + req.params.locationId);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser, (req, res, next) => {
     Locations.findByIdAndUpdate(req.params.locationId, {
         $set: req.body
     }, { new: true })
@@ -67,7 +68,7 @@ home.route('/:locationId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Locations.findByIdAndRemove(req.params.locationId)
     .then((resp) => {
         res.statusCode = 200;
@@ -116,7 +117,7 @@ home.route('/:locationId/comments')
     res.statusCode = 403;
     res.end('PUT not allowed on /home/' + req.params.locationId + '/comments');
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Locations.findById(req.params.locationId)
     .then((location) => {
         if (location != null) {
