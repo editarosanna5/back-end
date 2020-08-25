@@ -1,14 +1,19 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
+var favicon = require('server-favicon');
 var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyPaser = require('body-parser');
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var aboutRouter = require('./routes/about');
 var homeRouter = require('./routes/home');
 var howtouseRouter = require('./routes/how-to-use');
+
+var mongoose = require('mongoose')
 
 var app = express();
 
