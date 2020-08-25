@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
 
-var feedbackSchema = new mongoose.Schema({
+var feedbackSchema = new schema({
     firstname: {
         type: String,
         required: true
@@ -33,3 +33,6 @@ var feedbackSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+var Feedbacks = mongoose.model('Feedback', feedbackSchema);
+module.exports = Feedbacks;

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
 
-var commentSchema = new mongoose.Schema({
+var commentSchema = new schema({
     author: {
         type: String,
         required: true
@@ -31,7 +31,7 @@ var statSchema = new schema({
     }
 });
 
-var locSchema = new schema({
+var locationSchema = new schema({
     name: {
         type: String,
         required: true
@@ -66,5 +66,5 @@ var locSchema = new schema({
     timestamps: true
 });
 
-var Locations = mongoose.model('Location', locSchema);
+var Locations = mongoose.model('Location', locationSchema);
 module.exports = Locations;

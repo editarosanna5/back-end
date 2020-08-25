@@ -6,12 +6,8 @@ var howToUse = express.Router();
 howToUse.use(bodyParser.json());
 
 howToUse.route('/')
-.all((req, res, next) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    next();
-})
 .get((req, res, next) => {
+    res.statusCode = 200;
     res.end('Welcome to the How to Use page');
 })
 .post((req, res, next) => {
