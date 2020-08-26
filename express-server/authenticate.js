@@ -26,11 +26,9 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
         User.findOne({_id: jwt_payload._id}, (err, user) => {
             if (err) {
                 return done(err, false);
-            }
-            else if (user) {
+            } else if (user) {
                 return done(null, user);
-            }
-            else {
+            } else {
                 return done(null, false);
             }
         });
