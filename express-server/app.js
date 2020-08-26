@@ -30,7 +30,7 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser(27071-23106-07123-16507));
+app.use(cookieParser('27071-23106-07123-16507'));
 
 function auth (req, res, next) {
   console.log(req.signedCookies);
