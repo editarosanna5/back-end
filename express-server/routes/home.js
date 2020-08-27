@@ -166,35 +166,10 @@ home.route('/:locationId/comments/:commentId')
     res.end('POST not allowed on /home/'+ req.params.locationId
         + '/comments/' + req.params.commentId);
 })
-.put(authenticate.verifyUser, (req, res, next) => {
-    Locations.findById(req.params.locationId)
-    .then((location) => {
-        if (location != null && location.comments.id(req.params.commentId) != null) {
-            if (req.body.rating) {
-                location.comments.id(req.params.commentId).rating = req.body.rating;
-            }
-            if (req.body.comment) {
-                location.comments.id(req.params.commentId).comment = req.body.comment;                
-            }
-            location.save()
-            .then((location) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(location);                
-            }, (err) => next(err));
-        }
-        else if (location == null) {
-            err = new Error('"' + req.params.locationId + '" is not a registered location');
-            err.status = 404;
-            return next(err);
-        }
-        else {
-            err = new Error('Comment ' + req.params.commentId + ' not found');
-            err.status = 404;
-            return next(err);            
-        }
-    }, (err) => next(err))
-    .catch((err) => next(err));
+.put((req, res, next) => {
+    res.statusCode = 403;
+    res.end('POST not allowed on /home/'+ req.params.locationId
+        + '/comments/' + req.params.commentId);
 })
 .delete(authenticate.verifyUser, (req, res, next) => {
     Locations.findById(req.params.locationId)

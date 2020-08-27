@@ -15,16 +15,12 @@ var aboutRouter = require('./routes/about');
 var homeRouter = require('./routes/home');
 var howtouseRouter = require('./routes/how-to-use');
 
-
 var mongoose = require('mongoose');
-mongoose.Promies = require('bluebird');
 
 var Locations = require('./models/locations'); var Feedbacks = require('./models/feedbacks');
 
 var url = config.mongoUrl;
-var connect = mongoose.connect(url, {
-  useMongoClient: true
-});
+var connect = mongoose.connect(url);
 
 connect.then((db) => {
   console.log('Connected correctly to the server');
@@ -32,16 +28,22 @@ connect.then((db) => {
 
 var app = express();
 
+app.all('*', (req, res, next) => {
+  if (req.secure) {
+    return next();
+  }
+  else {
+    res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
+  }
+});
+
 //view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public','favicon.ico')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-//app.use(cookieParser('27071-23106-07123-16507'));
 
 app.use(passport.initialize());
 
