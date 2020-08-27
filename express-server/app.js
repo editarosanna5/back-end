@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');
 var aboutRouter = require('./routes/about');
 var homeRouter = require('./routes/home');
 var howtouseRouter = require('./routes/how-to-use');
+var uploadRouter = require('./routes/upload');
 
 var mongoose = require('mongoose');
 
@@ -55,6 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/about', aboutRouter);
 app.use('/home', homeRouter);
 app.use('/how-to-use', howtouseRouter);
+app.use('/imageUpload',uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
