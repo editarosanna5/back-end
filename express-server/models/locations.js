@@ -1,36 +1,6 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
 
-var commentSchema = new schema({
-    author: {
-        type: String,
-        required: true
-    },
-    rating: {
-        type: Number,
-        min: 1,
-        max: 5,
-        required: true
-    },
-    comment: {
-        type: String,
-        default: ''
-    }
-}, {
-    timestamps: true
-});
-
-var statSchema = new schema({
-    date: {
-        type: Date,
-        required: true
-    },
-    visitor: {
-        type: Number,
-        required: true
-    }
-});
-
 var locationSchema = new schema({
     name: {
         type: String,
@@ -59,9 +29,7 @@ var locationSchema = new schema({
     visitorOut: {
         type: Number,
         required: true
-    },
-    comments: [commentSchema],
-    stats: [statSchema]
+    }
 }, {
     timestamps: true
 });

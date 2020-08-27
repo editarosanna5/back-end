@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var authenticate = require('../authenticate');
+var cors = require('./cors');
 
 var Locations = require('../models/locations');
 
@@ -10,8 +11,9 @@ var home = express.Router();
 home.use(bodyParser.json());
 
 home.route('/')
-.get((req, res, next) => {
-    Locations.find({})
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors, (req, res, next) => {
+    Locations.find(req.query)
     .then((locations) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -19,7 +21,7 @@ home.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post(authenticate.verifyUser, (req, res, next) => {
+.post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Locations.create(req.body)
     .then((location) => {
         console.log('"', location, '" registered!');
@@ -33,7 +35,7 @@ home.route('/')
     res.statusCode = 403;
     res.end('PUT not allowed on /home');
 })
-.delete(authenticate.verifyUser, (req, res, next) => {
+.delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Locations.remove({})
     .then((resp) => {
         res.statusCode = 200;
@@ -44,7 +46,8 @@ home.route('/')
 });
 
 home.route('/:locationId')
-.get((req, res, next) => {
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors, (req, res, next) => {
     Locations.findById(req.params.locationId)
     .then((location) => {
         res.statusCode = 200;
@@ -57,7 +60,7 @@ home.route('/:locationId')
     res.statusCode = 403;
     res.end('POST not allowed on /home/' + req.params.locationId);
 })
-.put(authenticate.verifyUser, (req, res, next) => {
+.put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Locations.findByIdAndUpdate(req.params.locationId, {
         $set: req.body
     }, { new: true })
@@ -68,7 +71,7 @@ home.route('/:locationId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete(authenticate.verifyUser, (req, res, next) => {
+.delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Locations.findByIdAndRemove(req.params.locationId)
     .then((resp) => {
         res.statusCode = 200;
@@ -79,7 +82,8 @@ home.route('/:locationId')
 });
 
 home.route('/:locationId/comments')
-.get((req, res, next) => {
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors, (req, res, next) => {
     Locations.findById(req.params.locationId)
     .then((location) => {
         if (location != null) {
@@ -94,7 +98,7 @@ home.route('/:locationId/comments')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
+.post(cors.corsWithOptions, (req, res, next) => {
     Locations.findById(req.params.locationId)
     .then((location) => {
         if (location != null) {
@@ -117,7 +121,7 @@ home.route('/:locationId/comments')
     res.statusCode = 403;
     res.end('PUT not allowed on /home/' + req.params.locationId + '/comments');
 })
-.delete(authenticate.verifyUser, (req, res, next) => {
+.delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Locations.findById(req.params.locationId)
     .then((location) => {
         if (location != null) {
@@ -140,7 +144,8 @@ home.route('/:locationId/comments')
 });
 
 home.route('/:locationId/comments/:commentId')
-.get((req, res, next) => {
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors, (req, res, next) => {
     Locations.findById(req.params.locationId)
     .then((location) => {
         if (location != null && location.comments.id(req.params.commentId) != null) {
@@ -171,7 +176,7 @@ home.route('/:locationId/comments/:commentId')
     res.end('POST not allowed on /home/'+ req.params.locationId
         + '/comments/' + req.params.commentId);
 })
-.delete(authenticate.verifyUser, (req, res, next) => {
+.delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Locations.findById(req.params.locationId)
     .then((location) => {
         if (location != null && location.comments.id(req.params.commentId) != null) {
