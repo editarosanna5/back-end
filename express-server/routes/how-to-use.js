@@ -1,12 +1,14 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var cors = require('./cors');
 
 var howToUse = express.Router();
 
 howToUse.use(bodyParser.json());
 
 howToUse.route('/')
-.get((req, res, next) => {
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors, (req, res, next) => {
     res.statusCode = 200;
     res.end('Welcome to the How to Use page');
 })

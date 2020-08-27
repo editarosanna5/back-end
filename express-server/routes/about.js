@@ -1,20 +1,22 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var cors = require('./cors');
 
 var Feedbacks = require('../models/feedbacks');
-const Locations = require('../models/locations');
+var Locations = require('../models/locations');
 
 var about = express.Router();
 
 about.use(bodyParser.json());
 
 about.route('/')
-.get((req, res, next) => {
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors, (req, res, next) => {
     res.statusCode = 200;
     res.end('This is the About page');
 })
-.post((req, res, next) => {
+.post(cors.corsWithOptions, (req, res, next) => {
     Feedbacks.create(req.body)
     .then((feedback) => {
         console.log('Thank you for your feedback!');
